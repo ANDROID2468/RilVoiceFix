@@ -7,11 +7,11 @@ dev="$(getprop ro.product.model)"
 if [ "${dev}" = "LGVS986" ];
 then
     # sees if you got cell service
-    iso="$(getprop |grep gsm.operator.iso)"
-    while [ "${iso}" = "[gsm.operator.iso-country]: []" ]
+    net="$(getprop |grep gsm.network.type)"
+    while [ "${net}" = "[gsm.network.type]: [Unknown]" ]
     do
         sleep 5
-        iso="$(getprop |grep gsm.operator.iso)"
+        net="$(getprop |grep gsm.network.type)"
     done
     sim="$(getprop |grep sim.operator.alpha)"
     # this checks if you have a verizon sim
