@@ -10,11 +10,11 @@ then
     net="$(getprop |grep gsm.network.type)"
     while [ "${net}" = "[gsm.network.type]: [Unknown]" ]
     do
-        sleep 10
+        sleep 5
         net="$(getprop |grep gsm.network.type)"
     done
 
-    sleep 10
+    sleep 15
     net="$(getprop |grep gsm.network.type)"
     while [ "${net}" = "[gsm.network.type]: [Unknown]" ]
     do
@@ -26,7 +26,6 @@ then
     # this checks if you have a verizon sim
     if [ "${sim}" = "[gsm.sim.operator.alpha]: [Verizon]" ];
     then
-        sleep 10
         # this tests your phone has made an conection 
         gsmOp="$(getprop |grep gsm.operator.alpha)"
         if [ "${gsmOp}" = "[gsm.operator.alpha]: []" ];
@@ -38,4 +37,36 @@ then
             service call audio 7 i32 0 i32 7 i32 8 
         fi
     fi
+
+    # if you loose service
+    while true
+    do
+        des="$(getprop |grep gsm.operator.alpha)"
+        if [ "${des}" = "[gsm.operator.alpha]: []" ];
+        then
+            # sees if you got cell service
+            net="$(getprop |grep gsm.network.type)"
+            while [ "${net}" = "[gsm.network.type]: [Unknown]" ]
+            do
+                sleep 5
+                net="$(getprop |grep gsm.network.type)"
+            done
+
+            sleep 5
+            net="$(getprop |grep gsm.network.type)"
+            while [ "${net}" = "[gsm.network.type]: [Unknown]" ]
+            do
+                sleep 5
+                net="$(getprop |grep gsm.network.type)"
+            done
+
+
+            # This calls the testcall.com phone number 
+            service call audio 7 i32 0 i32 0 i32 8    
+            am start -a android.intent.action.CALL -d tel:"804-222-1111"
+            sleep 20
+            service call audio 7 i32 0 i32 7 i32 8 
+        fi
+        sleep 1
+    done
 fi

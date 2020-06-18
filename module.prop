@@ -1,7 +1,7 @@
 
 id=rilVoiceFix
 name=rilVoiceFix
-version=v1.1
+version=v1.2
 versionCode=1
 author=ANDROID2468
 description=fix voice service on boot for vs986. This module calls the testcall.com phone number on boot to fix voice service. 
